@@ -23,13 +23,16 @@ public class BalanceSystem : MonoBehaviour
     /// Changes your balance based on key press
     /// </summary>
     [SerializeField]
-    float influence = 0.1f;
+    float influence = 0.5f;
 
     /// <summary>
     /// Force being applied to Sekibanki's body
     /// </summary>
     [SerializeField]
     float force = 0;
+
+    [SerializeField]
+    float forceDecay = 0.5f;
 
     /// <summary>
     /// Magic number lol
@@ -106,16 +109,27 @@ public class BalanceSystem : MonoBehaviour
         {
             if (balance > -stableTerritory)
             {
-                force -= gravity *= Time.deltaTime;
+                balance -= gravity * Time.deltaTime;
+            }
+            else if (balance < -stableTerritory)
+            {
+                balance -= gravity * unstableGravityModifier * Time.deltaTime;
             }
         }
+
         if (balance > 0) //Right side
         {
             if (balance < stableTerritory)
             {
-                force += gravity *= Time.deltaTime;
+                balance += gravity * Time.deltaTime;
+            }
+            else if (balance > stableTerritory)
+            {
+                balance += gravity * unstableGravityModifier * Time.deltaTime;
             }
         }
+
+        balance += force * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -125,9 +139,9 @@ public class BalanceSystem : MonoBehaviour
         {
             force += influence * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow))
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
-            //Mathf.Lerp(0, )
+            force = Mathf.MoveTowards(force, 0, forceDecay * Time.deltaTime);
         }
     }
 
