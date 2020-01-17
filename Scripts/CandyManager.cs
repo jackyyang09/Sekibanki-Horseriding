@@ -43,7 +43,7 @@ public class CandyManager : MonoBehaviour
     {
         // If timer is over, spawn candy
         if (timer <= 0){
-            Instantiate (candy, transform.position, Quaternion.identity);
+            Instantiate (candy, new Vector2(transform.position.x, Random.Range(1,4)), Quaternion.identity);
             timer = timeToSpawn;
         }else{
             // Reduce time on timer
