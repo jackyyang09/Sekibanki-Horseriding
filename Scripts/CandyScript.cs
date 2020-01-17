@@ -22,9 +22,8 @@ public class CandyScript : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D other){
-        if(other.gameObject == head){
+        if(other.gameObject == CandyManager.instance.head){
         Debug.Log("touch head");
         }
-
     }
 }
