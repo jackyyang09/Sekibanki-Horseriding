@@ -7,16 +7,19 @@ public class BalanceSystem : MonoBehaviour
     [Header("Physics Lol")]
 
     /// <summary>
-    /// Will be a quadratic function -(balance = mx^2) where balance is between -2 and 2 and m is stability factor
+    /// Will be a quadratic function -(trueBalance = mbalance^2) where trueBalance is between -1 and 1 and m is stability factor
     /// </summary>
     [Range (-1, 1)]
     [SerializeField]
+    float trueBalance = 0;
+
     float balance = 0;
 
     /// <summary>
     /// The m in y = mx^2
     /// </summary>
     [SerializeField]
+    [Range(0.1f, 2)]
     float stabilityFactor = 1;
 
     /// <summary>
@@ -24,6 +27,12 @@ public class BalanceSystem : MonoBehaviour
     /// </summary>
     [SerializeField]
     float influence = 0.5f;
+
+    /// <summary>
+    /// To prevent bad game feel in the form of slingshotting
+    /// </summary>
+    [SerializeField]
+    float forceLimit = 0.5f;
 
     /// <summary>
     /// Force being applied to Sekibanki's body
@@ -59,7 +68,7 @@ public class BalanceSystem : MonoBehaviour
     [SerializeField]
     float unstableTerritory = 0.6f;
 
-    PlayerActions actions;
+    Animator anim;
 
     public static BalanceSystem instance;
 
@@ -82,30 +91,19 @@ public class BalanceSystem : MonoBehaviour
             }
         }
 
-        actions = new PlayerActions();
-        actions.Default.Jump.performed += context => Jump();
-    }
-
-    private void OnEnable()
-    {
-        actions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        actions.Disable();
+        anim = GetComponentInParent<Animator>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        balance = 0.01f; // NO BALANCING
     }
 
     // Update is called once per frame  
     void Update()
     {
-        if (balance < 0)
+        if (balance <= 0)
         {
             if (balance > -stableTerritory)
             {
@@ -131,13 +129,16 @@ public class BalanceSystem : MonoBehaviour
 
         balance += force * Time.deltaTime;
 
+        trueBalance = stabilityFactor * Mathf.Sin(balance);
+        anim.SetFloat("Balance", Mathf.InverseLerp(-1, 1, trueBalance));
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            force += -influence * Time.deltaTime;
+            force = Mathf.Clamp(force += -influence * Time.deltaTime, -forceLimit, force);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            force += influence * Time.deltaTime;
+            force = Mathf.Clamp(force += influence * Time.deltaTime, force, forceLimit);
         }
         if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
         {
@@ -149,9 +150,4 @@ public class BalanceSystem : MonoBehaviour
     //{
     //    force += direction * influence * Time.deltaTime;
     //}
-
-    public void Jump()
-    {
-
-    }
 }

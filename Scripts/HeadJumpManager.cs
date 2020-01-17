@@ -16,6 +16,8 @@ public class HeadJumpManager : MonoBehaviour
     float startingHeight;
     Rigidbody2D rb;
 
+    PlayerActions actions;
+
     public static HeadJumpManager instance;
 
     private void Awake()
@@ -38,6 +40,9 @@ public class HeadJumpManager : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody2D>();
+
+        actions = new PlayerActions();
+        actions.Default.Jump.performed += context => Parry();
     }
 
     // Start is called before the first frame update
@@ -45,6 +50,16 @@ public class HeadJumpManager : MonoBehaviour
     {
         startingHeight = transform.position.y;
         jumpTimer = 0;
+    }
+
+    private void OnEnable()
+    {
+        actions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        actions.Disable();
     }
 
     // Update is called once per frame
@@ -64,5 +79,10 @@ public class HeadJumpManager : MonoBehaviour
             rb.MovePosition(transform.position -= new Vector3(0, gravity));
             transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, startingHeight, transform.position.y));
         }
+    }
+
+    void Parry()
+    {
+
     }
 }
