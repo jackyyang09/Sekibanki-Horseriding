@@ -21,6 +21,16 @@ public class HeadJumpManager : MonoBehaviour
     public int playerLives = 2;
     public static HeadJumpManager instance;
 
+    // new jumping variables
+    public bool isGrounded;
+    public Transform feetPos;
+    public float checkRadius;
+    public LayerMask ground;
+    public float jumpForce;
+    
+    private float jumpTimeCounter;
+    public float jumpLength;
+    bool isJumping;
     private void Awake()
     {
         if (instance == null)
@@ -46,6 +56,37 @@ public class HeadJumpManager : MonoBehaviour
         actions.Default.Jump.performed += context => Parry();
     }
 
+    void Start(){
+
+    }
+
+    void Update(){
+        isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, ground);
+
+        if(isGrounded && Input.GetKeyDown(KeyCode.Space)){
+            isJumping = true;
+            jumpTimeCounter = jumpLength;
+            rb.velocity = Vector2.up * jumpForce;
+        }
+
+        if(Input.GetKey(KeyCode.Space) && isJumping){
+            if(jumpTimeCounter > 0){
+            rb.velocity = Vector2.up * jumpForce;
+            jumpTimeCounter -= Time.deltaTime;
+            }else{
+                isJumping = false;
+            }
+
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space)){
+            isJumping = false;
+        }
+    }
+
+/* Jacky's jumping code */
+
+/*
     // Start is called before the first frame update
     void Start()
     {
@@ -80,7 +121,7 @@ public class HeadJumpManager : MonoBehaviour
             rb.MovePosition(transform.position -= new Vector3(0, gravity));
             transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, startingHeight, transform.position.y));
         }
-    }
+    }*/
 
     void Parry()
     {
