@@ -167,6 +167,7 @@ MonoBehaviour:
   balance: 0
   stabilityFactor: 1
   influence: 0.1
+  force: 0
   gravity: 0.25
   unstableGravityModifier: 2
   stableTerritory: 0.3
