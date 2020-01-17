@@ -5,10 +5,14 @@ using UnityEngine;
 public class HorseManager : MonoBehaviour
 {
     /// <summary>
-    /// Speed at which the horse moves AKA distance point gain
+    /// Speed at which the horse moves AKA distance point gain in meters
+    /// Lowest speed (walking) averages 6400 meters per hour -> 1.78 meters per second
     /// </summary>
     [SerializeField]
     float speed;
+
+    [SerializeField]
+    float pointsToAdd;
 
     public static HorseManager instance;
 
@@ -41,6 +45,6 @@ public class HorseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        pointsToAdd += speed * Time.deltaTime;
     }
 }
