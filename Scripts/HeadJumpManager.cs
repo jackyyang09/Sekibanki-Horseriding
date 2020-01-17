@@ -6,6 +6,8 @@ public class HeadJumpManager : MonoBehaviour
 {
     [SerializeField]
     AnimationCurve jumpCurve;
+    [SerializeField]
+    float jumpTime = 0.5f;
     float jumpTimer;
 
     [SerializeField]
@@ -48,7 +50,7 @@ public class HeadJumpManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && jumpTimer <= 1)
+        if (Input.GetKey(KeyCode.Space) && jumpTimer <= jumpTime)
         {
             jumpTimer += Time.deltaTime;
             rb.MovePosition(new Vector3(transform.position.x, startingHeight) + new Vector3(0, jumpCurve.Evaluate(jumpTimer)));
