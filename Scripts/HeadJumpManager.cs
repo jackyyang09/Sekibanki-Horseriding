@@ -18,6 +18,7 @@ public class HeadJumpManager : MonoBehaviour
 
     PlayerActions actions;
 
+    public int playerLives = 2;
     public static HeadJumpManager instance;
 
     private void Awake()

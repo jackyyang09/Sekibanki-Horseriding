@@ -11,6 +11,7 @@ public class CandyManager : MonoBehaviour
     private float timer;
     // The time between spawns
     public float timeToSpawn;
+    // GameObject for player
     public GameObject head;
 
     private void Awake()
@@ -37,7 +38,8 @@ public class CandyManager : MonoBehaviour
     {
         // Set up timer
         timer = timeToSpawn;
-        head = GameObject.Find("Head");
+        // Find player by gameobject's name
+        head = GameObject.Find("HeadSprite");
     }
 
     // Update is called once per frame

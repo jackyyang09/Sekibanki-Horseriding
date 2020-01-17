@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   candy: {fileID: 4484696793285737768, guid: 467c42b402c81cb4fb45da699628ebdb, type: 3}
   timeToSpawn: 3
+  head: {fileID: 0}
 --- !u!4 &176728236
 Transform:
   m_ObjectHideFlags: 0
@@ -868,7 +869,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
