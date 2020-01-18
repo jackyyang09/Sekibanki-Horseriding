@@ -21,9 +21,8 @@ public class CandyScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other){
         // Get player gameobject from CandyManager
-        if(other.gameObject == CandyManager.instance.head){
-            HeadJumpManager.instance.playerLives -= 1;
-            Debug.Log("Lives left: " + HeadJumpManager.instance.playerLives);
+        if (other.gameObject == CandyManager.instance.head){
+            HeadJumpManager.instance.HitHead();
         }
     }
 }

@@ -103,25 +103,25 @@ public class BalanceSystem : MonoBehaviour
     // Update is called once per frame  
     void Update()
     {
-        if (balance <= 0)
+        if (trueBalance <= 0)
         {
-            if (balance > -stableTerritory)
+            if (trueBalance > -stableTerritory)
             {
                 balance -= gravity * Time.deltaTime;
             }
-            else if (balance < -stableTerritory)
+            else if (trueBalance < -stableTerritory)
             {
                 balance -= gravity * unstableGravityModifier * Time.deltaTime;
             }
         }
 
-        if (balance > 0) //Right side
+        if (trueBalance > 0) //Right side
         {
-            if (balance < stableTerritory)
+            if (trueBalance < stableTerritory)
             {
                 balance += gravity * Time.deltaTime;
             }
-            else if (balance > stableTerritory)
+            else if (trueBalance > stableTerritory)
             {
                 balance += gravity * unstableGravityModifier * Time.deltaTime;
             }

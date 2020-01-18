@@ -18,19 +18,32 @@ public class HeadJumpManager : MonoBehaviour
 
     PlayerActions actions;
 
-    public int playerLives = 2;
-    public static HeadJumpManager instance;
+    [SerializeField]
+    int playerLives = 2;
 
     // new jumping variables
-    public bool isGrounded;
-    public Transform feetPos;
-    public float checkRadius;
-    public LayerMask ground;
-    public float jumpForce;
-    
-    private float jumpTimeCounter;
-    public float jumpLength;
+    [SerializeField]
+    bool isGrounded;
+    [SerializeField]
+    Transform feetPos;
+    [SerializeField]
+    float checkRadius;
+    [SerializeField]
+    LayerMask ground;
+    [SerializeField]
+    float jumpForce;
+
+    [SerializeField]
+    float jumpTimeCounter;
+    [SerializeField]
+    float jumpLength;
+
     bool isJumping;
+
+    Animator anim;
+
+    public static HeadJumpManager instance;
+
     private void Awake()
     {
         if (instance == null)
@@ -51,37 +64,52 @@ public class HeadJumpManager : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInParent<Animator>();
 
         actions = new PlayerActions();
         actions.Default.Jump.performed += context => Parry();
     }
 
-    void Start(){
+    //void Start ()
+    //{
+    //
+    //}
 
-    }
-
-    void Update(){
+    void Update ()
+    {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, ground);
 
-        if(isGrounded && Input.GetKeyDown(KeyCode.Space)){
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
             isJumping = true;
             jumpTimeCounter = jumpLength;
             rb.velocity = Vector2.up * jumpForce;
         }
 
-        if(Input.GetKey(KeyCode.Space) && isJumping){
-            if(jumpTimeCounter > 0){
-            rb.velocity = Vector2.up * jumpForce;
-            jumpTimeCounter -= Time.deltaTime;
-            }else{
+        if (Input.GetKey(KeyCode.Space) && isJumping)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector2.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
                 isJumping = false;
             }
 
         }
 
-        if(Input.GetKeyUp(KeyCode.Space)){
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
             isJumping = false;
         }
+    }
+
+    public void HitHead()
+    {
+        playerLives -= 1;
+        anim.SetTrigger("HeadHit");   
     }
 
 /* Jacky's jumping code */

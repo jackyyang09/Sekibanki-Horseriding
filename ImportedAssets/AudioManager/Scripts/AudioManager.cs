@@ -1330,7 +1330,10 @@ namespace JSAM
                 }
                 else
                 {
-                    Destroy(this);
+                    if (!Application.isEditor)
+                    {
+                        Destroy(this);
+                    }
                 }
             }
         }
