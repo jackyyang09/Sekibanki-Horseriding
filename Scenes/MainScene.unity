@@ -643,9 +643,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3958b26695485bc4397f3ec585911687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceTravelledText: {fileID: 0}
-  candiesEatenText: {fileID: 0}
-  headsRemainingText: {fileID: 0}
+  distanceTravelledText: {fileID: 1188205412}
+  candiesEatenText: {fileID: 1834319695}
+  headsRemainingText: {fileID: 1784146919}
 --- !u!1 &788285964
 GameObject:
   m_ObjectHideFlags: 0
