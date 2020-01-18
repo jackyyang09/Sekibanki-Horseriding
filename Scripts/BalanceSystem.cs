@@ -68,6 +68,8 @@ public class BalanceSystem : MonoBehaviour
     [SerializeField]
     float unstableTerritory = 0.6f;
 
+    bool updateBalance;
+
     Animator anim;
 
     public static BalanceSystem instance;
@@ -98,51 +100,68 @@ public class BalanceSystem : MonoBehaviour
     void Start()
     {
         balance = 0.01f; // NO BALANCING
+        updateBalance = true;
     }
 
     // Update is called once per frame  
     void Update()
     {
-        if (trueBalance <= 0)
+        if (updateBalance)
         {
-            if (trueBalance > -stableTerritory)
+            if (balance <= 0)
             {
-                balance -= gravity * Time.deltaTime;
+                if (balance > -stableTerritory)
+                {
+                    balance -= gravity * Time.deltaTime;
+                }
+                else if (balance < -stableTerritory)
+                {
+                    balance -= gravity * unstableGravityModifier * Time.deltaTime;
+                }
             }
-            else if (trueBalance < -stableTerritory)
+
+            if (balance > 0) //Right side
             {
-                balance -= gravity * unstableGravityModifier * Time.deltaTime;
+                if (balance < stableTerritory)
+                {
+                    balance += gravity * Time.deltaTime;
+                }
+                else if (balance > stableTerritory)
+                {
+                    balance += gravity * unstableGravityModifier * Time.deltaTime;
+                }
             }
-        }
 
-        if (trueBalance > 0) //Right side
-        {
-            if (trueBalance < stableTerritory)
+            balance += force * Time.deltaTime;
+
+            trueBalance = stabilityFactor * Mathf.Sin(balance);
+            anim.SetFloat("Balance", Mathf.InverseLerp(-1, 1, trueBalance));
+
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
-                balance += gravity * Time.deltaTime;
+                force = Mathf.Clamp(force += -influence * Time.deltaTime, -forceLimit, force);
             }
-            else if (trueBalance > stableTerritory)
+            if (Input.GetKey(KeyCode.RightArrow))
             {
-                balance += gravity * unstableGravityModifier * Time.deltaTime;
+                force = Mathf.Clamp(force += influence * Time.deltaTime, force, forceLimit);
             }
-        }
+            if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+            {
+                force = Mathf.MoveTowards(force, 0, forceDecay * Time.deltaTime);
+            }
 
-        balance += force * Time.deltaTime;
-
-        trueBalance = stabilityFactor * Mathf.Sin(balance);
-        anim.SetFloat("Balance", Mathf.InverseLerp(-1, 1, trueBalance));
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            force = Mathf.Clamp(force += -influence * Time.deltaTime, -forceLimit, force);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            force = Mathf.Clamp(force += influence * Time.deltaTime, force, forceLimit);
-        }
-        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-        {
-            force = Mathf.MoveTowards(force, 0, forceDecay * Time.deltaTime);
+            if (Mathf.Abs(trueBalance) >= 0.95f)
+            {
+                if (trueBalance > 0) // Is positive
+                {
+                    anim.SetTrigger("Fall Forward");
+                }
+                else if (trueBalance < 0) // Is negative
+                {
+                    anim.SetTrigger("Fall Backward");
+                }
+                updateBalance = false;
+            }
         }
     }
 

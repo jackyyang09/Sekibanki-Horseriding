@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class GameStateManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
-    /// <summary>
-    /// Points but it'll be truncated as an integer in game (Cheat Engine users BTFO)
-    /// </summary>
+    [Header("Lose UI References")]
     [SerializeField]
-    float points;
-
+    TextMeshProUGUI distanceTravelledText;
     [SerializeField]
-    float horsePointsMultiplier = 1;
+    TextMeshProUGUI candiesEatenText;
+    [SerializeField]
+    TextMeshProUGUI headsRemainingText;
 
-    public static GameStateManager instance;
+    Animator anim;
+
+    public static UIManager instance;
 
     private void Awake()
     {
@@ -33,6 +36,8 @@ public class GameStateManager : MonoBehaviour
                 Destroy(this);
             }
         }
+
+        anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -47,18 +52,23 @@ public class GameStateManager : MonoBehaviour
         
     }
 
-    public void AddPoints()
+    public void DisplayLoseUI()
     {
+        Time.timeScale = 0;
 
+        anim.SetTrigger("LoseUI");
     }
 
-    public void LoseGame()
+    #region LoseUI
+
+    public void SetDistanceTravelled()
     {
-        UIManager.instance.DisplayLoseUI();
+        distanceTravelledText.text = 
+            "Distance Travelled: " + 
+            HorseManager.instance.GetDistanceTravelled() + 
+            "m (+" + GameStateManager.instance.GetHorsePoints() +
+            "xp)";
     }
 
-    public float GetHorsePoints()
-    {
-        return HorseManager.instance.GetDistanceTravelled() * horsePointsMultiplier;
-    }
+    #endregion
 }

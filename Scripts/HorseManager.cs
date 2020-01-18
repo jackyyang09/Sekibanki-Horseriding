@@ -12,7 +12,7 @@ public class HorseManager : MonoBehaviour
     float speed;
 
     [SerializeField]
-    float pointsToAdd;
+    float timeAlive;
 
     public static HorseManager instance;
 
@@ -45,6 +45,16 @@ public class HorseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        pointsToAdd += speed * Time.deltaTime;
+        timeAlive += Time.deltaTime;
+    }
+
+    public float GetDistanceTravelled()
+    {
+        return timeAlive * speed;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
     }
 }
