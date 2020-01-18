@@ -21,6 +21,12 @@ public class HeadJumpManager : MonoBehaviour
     [SerializeField]
     int playerLives = 2;
 
+    [SerializeField]
+    int candyAvoided;
+
+    [SerializeField]
+    int candyEaten;
+
     // new jumping variables
     [SerializeField]
     bool isGrounded;
@@ -110,6 +116,21 @@ public class HeadJumpManager : MonoBehaviour
     {
         playerLives -= 1;
         anim.SetTrigger("HeadHit");   
+    }
+
+    public void CandyAvoided()
+    {
+        candyAvoided++;
+    }
+
+    public int GetCandyEaten()
+    {
+        return candyEaten;
+    }
+
+    public int GetCandyAvoided()
+    {
+        return candyAvoided;
     }
 
 /* Jacky's jumping code */

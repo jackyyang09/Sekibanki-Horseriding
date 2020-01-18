@@ -50,7 +50,7 @@ public class HorseManager : MonoBehaviour
 
     public float GetDistanceTravelled()
     {
-        return timeAlive * speed;
+        return (float)System.Decimal.Round((System.Decimal)(timeAlive * speed), 2);
     }
 
     public float GetSpeed()

@@ -12,6 +12,12 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField]
     float horsePointsMultiplier = 1;
+    [SerializeField]
+    float candiesAvoidedMultiplier = 10;
+    [SerializeField]
+    float candiesEatenMultiplier = 100;
+
+    int pointsToBeAdded; // Add up our total temporarily
 
     public static GameStateManager instance;
 
@@ -38,7 +44,7 @@ public class GameStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        pointsToBeAdded = 0;
     }
 
     // Update is called once per frame
@@ -47,9 +53,25 @@ public class GameStateManager : MonoBehaviour
         
     }
 
-    public void AddPoints()
+    public void Restart()
     {
 
+    }
+
+    public void AddPoints()
+    {
+        points += pointsToBeAdded;
+        ClearPointsBuffer();
+    }
+
+    public void ClearPointsBuffer()
+    {
+        pointsToBeAdded = 0;
+    }
+
+    public int GetPointsToBeAdded()
+    {
+        return pointsToBeAdded;
     }
 
     public void LoseGame()
@@ -57,8 +79,24 @@ public class GameStateManager : MonoBehaviour
         UIManager.instance.DisplayLoseUI();
     }
 
-    public float GetHorsePoints()
+    public int GetHorsePoints()
     {
-        return HorseManager.instance.GetDistanceTravelled() * horsePointsMultiplier;
+        int newPoints = Mathf.RoundToInt(HorseManager.instance.GetDistanceTravelled() * horsePointsMultiplier);
+        pointsToBeAdded += newPoints;
+        return newPoints;
+    }
+
+    public int GetCandyAvoidedPoints()
+    {
+        int newPoints = Mathf.RoundToInt(HeadJumpManager.instance.GetCandyAvoided() * candiesAvoidedMultiplier);
+        pointsToBeAdded += newPoints;
+        return newPoints;
+    }
+
+    public int GetCandyEatenPoints()
+    {
+        int newPoints = Mathf.RoundToInt(HeadJumpManager.instance.GetCandyEaten() * candiesEatenMultiplier);
+        pointsToBeAdded += newPoints;
+        return newPoints;
     }
 }
