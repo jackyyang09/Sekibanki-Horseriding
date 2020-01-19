@@ -58,10 +58,21 @@ public class GameStateManager : MonoBehaviour
 
     }
 
+    public int GetPoints()
+    {
+        return (int)points;
+    }
+
     public void AddPoints()
     {
         points += pointsToBeAdded;
         ClearPointsBuffer();
+    }
+
+    public void SubtractPoints(int amount)
+    {
+        if (amount > points) Debug.LogError("THATS REALLY EXPENSIVE BRO ARE YOU SURE????");
+        points -= amount;
     }
 
     public void ClearPointsBuffer()

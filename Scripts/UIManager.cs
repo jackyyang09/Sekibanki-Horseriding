@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     {
         Default = 0,
         LossDisplay,
-        PressToContinue
+        PressToContinue,
+        Upgrades
     }
 
     [SerializeField]
@@ -25,6 +26,16 @@ public class UIManager : MonoBehaviour
     TextMeshProUGUI candiesEatenText;
     [SerializeField]
     TextMeshProUGUI totalPointsText;
+
+    [Header("Upgrade UI References")]
+    [SerializeField]
+    GameObject upgradeWindow;
+    [SerializeField]
+    TextMeshProUGUI xpText;
+    [SerializeField]
+    TextMeshProUGUI costText;
+    [SerializeField]
+    TextMeshProUGUI descriptionText;
 
     Animator anim;
 
@@ -68,9 +79,14 @@ public class UIManager : MonoBehaviour
                 case UIState.LossDisplay:
                     SetAllLoseText();
                     anim.SetTrigger("SkipLoseUI");
+                    currentState = UIState.PressToContinue;
                     break;
                 case UIState.PressToContinue:
                     GameStateManager.instance.AddPoints();
+                    anim.SetTrigger("PressToContinue");
+                    upgradeWindow.SetActive(true);
+                    currentState = UIState.Upgrades;
+                    SetXP();
                     break;
             }
         }
@@ -83,11 +99,6 @@ public class UIManager : MonoBehaviour
         currentState = UIState.LossDisplay;
         Time.timeScale = 0;
         anim.SetTrigger("LoseUI");
-    }
-
-    public void DisplayPressToContinue()
-    {
-        currentState = UIState.PressToContinue;
     }
 
     public void SetDistanceTravelled()
@@ -129,6 +140,31 @@ public class UIManager : MonoBehaviour
         SetCandiesAvoided();
         SetCandiesEaten();
         SetTotalPoints();
+    }
+
+    #endregion
+
+    #region UgpradeUI
+
+    public void SetUpgradeDescription(string desc)
+    {
+        descriptionText.text = desc;
+    }
+
+    public void SetUpgradeCost(Upgrades u, int requestedLevel)
+    {
+        costText.gameObject.SetActive(true);
+        costText.text = (UpgradeManager.instance.GetRequestedUpgradeCost(u, requestedLevel)).ToString();
+    }
+
+    public void SetXP()
+    {
+        xpText.text = GameStateManager.instance.GetPoints().ToString();
+    }
+
+    public void HideCost()
+    {
+        costText.gameObject.SetActive(false);
     }
 
     #endregion
