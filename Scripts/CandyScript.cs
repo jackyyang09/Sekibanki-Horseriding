@@ -13,7 +13,7 @@ public class CandyScript : MonoBehaviour
     {
         candyBody = GetComponent<Rigidbody2D>();
         // Move candy to left
-        candyBody.velocity = new Vector2(-5f, 0f);
+        candyBody.velocity = new Vector2(-6f, 0f);
         Destroy(gameObject, 5);
     }
 
@@ -29,6 +29,7 @@ public class CandyScript : MonoBehaviour
                 pointRegistered = true;
             }
         }
+        transform.Rotate(new Vector3(0, 0, 1) * -80 * Time.deltaTime);
     }
 
     void OnTriggerEnter2D(Collider2D other){

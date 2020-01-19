@@ -6,7 +6,7 @@ public class CandyManager : MonoBehaviour
 {
     public static CandyManager instance;
     // GameObject to be spawned
-    public GameObject candy;
+    public GameObject[] candy;
     // Tracks time until next spawn
     private float timer;
     // The time between spawns
@@ -39,7 +39,7 @@ public class CandyManager : MonoBehaviour
         // Set up timer
         timer = timeToSpawn;
         // Find player by gameobject's name
-        head = GameObject.Find("HeadSprite");
+        //head = GameObject.Find("HeadSprite");
     }
 
     // Update is called once per frame
@@ -47,11 +47,19 @@ public class CandyManager : MonoBehaviour
     {
         // If timer is over, spawn candy
         if (timer <= 0){
-            Instantiate (candy, new Vector2(transform.position.x, Random.Range(1,4)), Quaternion.identity);
+            Instantiate (candy[Random.Range(0, candy.Length)], new Vector2(transform.position.x, /*Random.Range(1,4)*/1), Quaternion.identity);
             timer = timeToSpawn;
         }else{
             // Reduce time on timer
             timer -= Time.deltaTime;
+        }
+    }
+
+    public void DestroyAllCandies()
+    {
+        foreach (CandyScript c in FindObjectsOfType<CandyScript>())
+        {
+            Destroy(c.gameObject);
         }
     }
 }

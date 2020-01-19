@@ -7,7 +7,7 @@ public enum Upgrades
     HeadJumpHeight,
     AdditionalHeads,
     Balance,
-    GravityEffect
+    HorseSpeed,
 }
 
 public class UpgradeManager : MonoBehaviour
@@ -91,7 +91,7 @@ public class UpgradeManager : MonoBehaviour
                 return additionalHeads;
             case Upgrades.Balance:
                 return balance;
-            case Upgrades.GravityEffect:
+            case Upgrades.HorseSpeed:
                 return gravityEffect;
             default:
                 return 0;
@@ -113,7 +113,7 @@ public class UpgradeManager : MonoBehaviour
             case Upgrades.Balance:
                 balance = requestedLevel;
                 break;
-            case Upgrades.GravityEffect:
+            case Upgrades.HorseSpeed:
                 gravityEffect = requestedLevel;
                 break;
         }

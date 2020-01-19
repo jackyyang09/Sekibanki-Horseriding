@@ -16,8 +16,6 @@ public class HeadJumpManager : MonoBehaviour
     float startingHeight;
     Rigidbody2D rb;
 
-    PlayerActions actions;
-
     [SerializeField]
     int maxLives = 2; 
     int playerLives = 2;
@@ -75,9 +73,6 @@ public class HeadJumpManager : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInParent<Animator>();
-
-        actions = new PlayerActions();
-        actions.Default.Jump.performed += context => Parry();
     }
 
     void Start ()
@@ -149,6 +144,11 @@ public class HeadJumpManager : MonoBehaviour
         candyAvoided++;
     }
 
+    public void CandyEaten()
+    {
+        candyEaten++;
+    }
+
     public int GetCandyEaten()
     {
         return candyEaten;
@@ -197,9 +197,4 @@ public class HeadJumpManager : MonoBehaviour
             transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, startingHeight, transform.position.y));
         }
     }*/
-
-    void Parry()
-    {
-
-    }
 }

@@ -60,6 +60,7 @@ public class GameStateManager : MonoBehaviour
     public void Restart()
     {
         UIManager.instance.FadeToWhite();
+        CandyManager.instance.DestroyAllCandies();
         Time.timeScale = 1;
         anim.enabled = false;
         Invoke("BeginGame", 0.5f);
