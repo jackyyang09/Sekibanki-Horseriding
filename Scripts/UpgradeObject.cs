@@ -8,6 +8,7 @@ public class UpgradeObject : MonoBehaviour
     [SerializeField]
     Upgrades upgradeType;
 
+    [TextArea]
     [SerializeField]
     string description;
 

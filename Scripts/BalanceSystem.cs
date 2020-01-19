@@ -149,7 +149,9 @@ public class BalanceSystem : MonoBehaviour
             balance += force * Time.deltaTime;
 
             trueBalance = stabilityFactor * Mathf.Sin(balance);
-            anim.SetFloat("Balance", Mathf.InverseLerp(-1, 1, trueBalance));
+            float animVal = Mathf.InverseLerp(-1, 1, trueBalance);
+            anim.SetFloat("Balance", animVal);
+            UIManager.instance.UpdateBalanceBar(animVal);
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {

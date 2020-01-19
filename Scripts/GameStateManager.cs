@@ -17,6 +17,9 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]
     float candiesEatenMultiplier = 100;
 
+    [SerializeField]
+    Animator bgAnim;
+
     int pointsToBeAdded; // Add up our total temporarily
 
     Animator anim;
@@ -49,13 +52,14 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         pointsToBeAdded = 0;
+        JSAM.AudioManager.instance.PlayMusic("In-Game");
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //void Update()
+    //{
+    //    
+    //}
 
     public void Restart()
     {
@@ -64,6 +68,12 @@ public class GameStateManager : MonoBehaviour
         Time.timeScale = 1;
         anim.enabled = false;
         Invoke("BeginGame", 0.5f);
+        JSAM.AudioManager.instance.PlayMusic("In-Game");
+    }
+
+    public void UpdateBackgroundScroll(int requestedLevel)
+    {
+        bgAnim.SetFloat("ScrollSpeed", Mathf.Lerp(1, 2, (float)requestedLevel / 10f));
     }
 
     public void BeginGame()

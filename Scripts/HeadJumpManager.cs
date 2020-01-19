@@ -102,7 +102,6 @@ public class HeadJumpManager : MonoBehaviour
             {
                 isJumping = false;
             }
-
         }
 
         if (Input.GetKeyUp(KeyCode.Space))
@@ -121,6 +120,7 @@ public class HeadJumpManager : MonoBehaviour
         playerLives = maxLives;
         candyAvoided = 0;
         candyEaten = 0;
+        UIManager.instance.UpdateHeadCount(true);
     }
 
     public void UpdateMaxLives()
@@ -137,6 +137,12 @@ public class HeadJumpManager : MonoBehaviour
         {
             anim.SetBool("No Heads", true);
         }
+        UIManager.instance.UpdateHeadCount();
+    }
+
+    public int GetRemainingHeads()
+    {
+        return playerLives;
     }
 
     public void CandyAvoided()

@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     UIState currentState;
 
+    [SerializeField]
+    TextMeshProUGUI headText;
+
     [Header("Lose UI References")]
     [SerializeField]
     TextMeshProUGUI distanceTravelledText;
@@ -66,7 +69,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        UpdateHeadCount(true);
     }
 
     // Update is called once per frame
@@ -91,6 +94,20 @@ public class UIManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void UpdateBalanceBar(float balance)
+    {
+        anim.SetFloat("Balance", balance);
+    }
+
+    public void UpdateHeadCount(bool manual = false)
+    {
+        if (!manual)
+        {
+            anim.SetTrigger("HeadPulse");
+        }
+        headText.text = HeadJumpManager.instance.GetRemainingHeads().ToString();
     }
 
     /// <summary>
@@ -118,6 +135,7 @@ public class UIManager : MonoBehaviour
     {
         currentState = UIState.LossDisplay;
         anim.SetTrigger("LoseUI");
+        JSAM.AudioManager.instance.PlayMusic("In-Menu");
     }
 
     public void SetDistanceTravelled()

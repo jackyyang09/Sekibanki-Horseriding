@@ -112,10 +112,12 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case Upgrades.Balance:
                 balance = requestedLevel;
+                BalanceSystem.instance.UpdateStability(requestedLevel);
                 break;
             case Upgrades.HorseSpeed:
                 gravityEffect = requestedLevel;
                 HorseManager.instance.UpdateSpeed(requestedLevel);
+                GameStateManager.instance.UpdateBackgroundScroll(requestedLevel);
                 break;
         }
     }
