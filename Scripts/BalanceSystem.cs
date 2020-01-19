@@ -22,6 +22,9 @@ public class BalanceSystem : MonoBehaviour
     [Range(0.1f, 2)]
     float stabilityFactor = 1;
 
+    [SerializeField]
+    Vector2 stabilityUpgrade = new Vector2(1, 0.5f);
+
     /// <summary>
     /// Changes your balance based on key press
     /// </summary>
@@ -102,10 +105,15 @@ public class BalanceSystem : MonoBehaviour
         ResetBalance();
     }
 
+    public void UpdateStability(int requestedLevel)
+    {
+        float newStability = (float)requestedLevel / 10f;
+        stabilityFactor = Mathf.Lerp(stabilityUpgrade.x, stabilityUpgrade.y, newStability);
+    }
+
     public void ResetBalance()
     {
         balance = 0.01f; // NO BALANCING
-        balance = 0.01f;
         updateBalance = true;
     }
 

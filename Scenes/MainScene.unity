@@ -2208,6 +2208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trueBalance: 0
   stabilityFactor: 1
+  stabilityUpgrade: {x: 1, y: 0.5}
   influence: 2
   forceLimit: 1
   force: 0
@@ -7708,6 +7709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.77
+  speedRange: {x: 1.77, y: 11.11}
   timeAlive: 0
 --- !u!1 &863243030
 GameObject:
@@ -13278,7 +13280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 540.2, y: -197}
+  m_AnchoredPosition: {x: 540.2, y: -282.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629945367
@@ -16673,7 +16675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1978230766
 RectTransform:
   m_ObjectHideFlags: 0

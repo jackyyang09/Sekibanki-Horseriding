@@ -12,7 +12,12 @@ public class HorseManager : MonoBehaviour
     float speed;
 
     [SerializeField]
+    Vector2 speedRange;
+
+    [SerializeField]
     float timeAlive;
+
+    Animator anim;
 
     public static HorseManager instance;
 
@@ -46,6 +51,13 @@ public class HorseManager : MonoBehaviour
     void Update()
     {
         timeAlive += Time.deltaTime;
+    }
+
+    public void UpdateSpeed(int level)
+    {
+        float newSpeed = (float)level / 10f;
+        speed = Mathf.Lerp(speedRange.x, speedRange.y, newSpeed);
+        anim.SetFloat("HorseSpeed", Mathf.Lerp(1, 2, newSpeed));
     }
 
     public void ResetTime()

@@ -115,6 +115,7 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case Upgrades.HorseSpeed:
                 gravityEffect = requestedLevel;
+                HorseManager.instance.UpdateSpeed(requestedLevel);
                 break;
         }
     }
