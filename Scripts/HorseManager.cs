@@ -48,6 +48,11 @@ public class HorseManager : MonoBehaviour
         timeAlive += Time.deltaTime;
     }
 
+    public void ResetTime()
+    {
+        timeAlive = 0;
+    }
+
     public float GetDistanceTravelled()
     {
         return (float)System.Decimal.Round((System.Decimal)(timeAlive * speed), 2);

@@ -104,9 +104,11 @@ public class UpgradeManager : MonoBehaviour
         {
             case Upgrades.HeadJumpHeight:
                 headJumpHeight = requestedLevel;
+                HeadJumpManager.instance.UpdateJumpHeight();
                 break;
             case Upgrades.AdditionalHeads:
                 additionalHeads = requestedLevel;
+                HeadJumpManager.instance.UpdateMaxLives();
                 break;
             case Upgrades.Balance:
                 balance = requestedLevel;

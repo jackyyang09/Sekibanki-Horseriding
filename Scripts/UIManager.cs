@@ -87,9 +87,29 @@ public class UIManager : MonoBehaviour
                     upgradeWindow.SetActive(true);
                     currentState = UIState.Upgrades;
                     SetXP();
+                    descriptionText.text = "";
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// Used by animations
+    /// </summary>
+    public void DisplayPressToContine()
+    {
+        currentState = UIState.PressToContinue;
+    }
+
+    public void FadeToWhite()
+    {
+        anim.SetTrigger("FadeWhite");
+    }
+
+    public void HideUpgradeWindow()
+    {
+        upgradeWindow.SetActive(false);
+        currentState = UIState.Default;
     }
 
     #region LoseUI
@@ -97,7 +117,6 @@ public class UIManager : MonoBehaviour
     public void DisplayLoseUI()
     {
         currentState = UIState.LossDisplay;
-        Time.timeScale = 0;
         anim.SetTrigger("LoseUI");
     }
 

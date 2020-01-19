@@ -99,7 +99,13 @@ public class BalanceSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResetBalance();
+    }
+
+    public void ResetBalance()
+    {
         balance = 0.01f; // NO BALANCING
+        balance = 0.01f;
         updateBalance = true;
     }
 

@@ -19,6 +19,8 @@ public class GameStateManager : MonoBehaviour
 
     int pointsToBeAdded; // Add up our total temporarily
 
+    Animator anim;
+
     public static GameStateManager instance;
 
     private void Awake()
@@ -39,6 +41,8 @@ public class GameStateManager : MonoBehaviour
                 Destroy(this);
             }
         }
+
+        anim = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -55,7 +59,19 @@ public class GameStateManager : MonoBehaviour
 
     public void Restart()
     {
+        UIManager.instance.FadeToWhite();
+        Time.timeScale = 1;
+        anim.enabled = false;
+        Invoke("BeginGame", 0.5f);
+    }
 
+    public void BeginGame()
+    {
+        HeadJumpManager.instance.ResetStats();
+        HorseManager.instance.ResetTime();
+        BalanceSystem.instance.ResetBalance();
+        anim.enabled = true;
+        anim.Rebind();
     }
 
     public int GetPoints()
@@ -87,6 +103,7 @@ public class GameStateManager : MonoBehaviour
 
     public void LoseGame()
     {
+        Time.timeScale = 0;
         UIManager.instance.DisplayLoseUI();
     }
 

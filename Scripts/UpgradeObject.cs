@@ -31,6 +31,7 @@ public class UpgradeObject : MonoBehaviour
 
     public void BuyUpgrade(int requestedLevel)
     {
+        if (requestedLevel <= UpgradeManager.instance.GetUpgradeLevel(upgradeType)) return;
         int price = UpgradeManager.instance.GetCachedUpgradePrice();
         if (GameStateManager.instance.GetPoints() > UpgradeManager.instance.GetCachedUpgradePrice())
         {

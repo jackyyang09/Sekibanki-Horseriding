@@ -19,6 +19,7 @@ public class HeadJumpManager : MonoBehaviour
     PlayerActions actions;
 
     [SerializeField]
+    int maxLives = 2; 
     int playerLives = 2;
 
     [SerializeField]
@@ -43,6 +44,9 @@ public class HeadJumpManager : MonoBehaviour
     float jumpTimeCounter;
     [SerializeField]
     float jumpLength;
+
+    [SerializeField]
+    Vector2 jumpUpgradeRange = new Vector2(0.2f, 0.4f);
 
     bool isJumping;
 
@@ -76,10 +80,10 @@ public class HeadJumpManager : MonoBehaviour
         actions.Default.Jump.performed += context => Parry();
     }
 
-    //void Start ()
-    //{
-    //
-    //}
+    void Start ()
+    {
+        ResetStats();
+    }
 
     void Update ()
     {
@@ -112,10 +116,32 @@ public class HeadJumpManager : MonoBehaviour
         }
     }
 
+    public void UpdateJumpHeight()
+    {
+        jumpLength = Mathf.Lerp(jumpUpgradeRange.x, jumpUpgradeRange.y, (float)UpgradeManager.instance.GetUpgradeLevel(Upgrades.HeadJumpHeight) / 10f);
+    }
+
+    public void ResetStats()
+    {
+        playerLives = maxLives;
+        candyAvoided = 0;
+        candyEaten = 0;
+    }
+
+    public void UpdateMaxLives()
+    {
+        maxLives = UpgradeManager.instance.GetUpgradeLevel(Upgrades.AdditionalHeads) + 1;
+    }
+
     public void HitHead()
     {
-        playerLives -= 1;
-        anim.SetTrigger("HeadHit");   
+        playerLives--;
+        candyAvoided--;
+        anim.SetTrigger("HeadHit");
+        if (playerLives == 0)
+        {
+            anim.SetBool("No Heads", true);
+        }
     }
 
     public void CandyAvoided()
