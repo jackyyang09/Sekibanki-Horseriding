@@ -13,6 +13,8 @@ public class BalanceSystem : MonoBehaviour
     [SerializeField]
     float trueBalance = 0;
 
+    [Range (-1, 1)]
+    [SerializeField]
     float balance = 0;
 
     /// <summary>

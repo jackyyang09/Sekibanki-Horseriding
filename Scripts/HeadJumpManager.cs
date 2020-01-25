@@ -20,6 +20,14 @@ public class HeadJumpManager : MonoBehaviour
     int maxLives = 2; 
     int playerLives = 2;
 
+    /// <summary>
+    /// How long are we invincible after getting hit by candy?
+    /// </summary>
+    [SerializeField]
+    float invulnTime = 1.5f;
+    bool invulnerable;
+    SpriteRenderer headSprite;
+
     [SerializeField]
     int candyAvoided;
 
@@ -48,6 +56,10 @@ public class HeadJumpManager : MonoBehaviour
 
     bool isJumping;
 
+    Parry parryComponent;
+    bool canParry = true;
+    bool canJump = true;
+
     Animator anim;
 
     public static HeadJumpManager instance;
@@ -73,6 +85,8 @@ public class HeadJumpManager : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInParent<Animator>();
+        parryComponent = GetComponentInChildren<Parry>();
+        headSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Start ()
@@ -82,6 +96,8 @@ public class HeadJumpManager : MonoBehaviour
 
     void Update ()
     {
+        if (!canJump) return;
+
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, ground);
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
@@ -110,9 +126,28 @@ public class HeadJumpManager : MonoBehaviour
         }
     }
 
+    public void SetJumpAbility(bool b)
+    {
+        canJump = b;
+    }
+
     public void UpdateJumpHeight()
     {
         jumpLength = Mathf.Lerp(jumpUpgradeRange.x, jumpUpgradeRange.y, (float)UpgradeManager.instance.GetUpgradeLevel(Upgrades.HeadJumpHeight) / 10f);
+    }
+
+    public void EnableInvuln()
+    {
+        invulnerable = true;
+        headSprite.color = new Color (1, 1, 1, 0.5f);
+        Invoke("DisableInvuln", invulnTime);
+        SetJumpAbility(true);
+    }
+
+    public void DisableInvuln()
+    {
+        headSprite.color = Color.white;
+        invulnerable = false;
     }
 
     public void ResetStats()
@@ -121,6 +156,12 @@ public class HeadJumpManager : MonoBehaviour
         candyAvoided = 0;
         candyEaten = 0;
         UIManager.instance.UpdateHeadCount(true);
+        SetParryStatus(true);
+    }
+
+    public bool IsGrounded()
+    {
+        return isGrounded;
     }
 
     public void UpdateMaxLives()
@@ -128,8 +169,15 @@ public class HeadJumpManager : MonoBehaviour
         maxLives = UpgradeManager.instance.GetUpgradeLevel(Upgrades.AdditionalHeads) + 1;
     }
 
+    public void SetParryStatus(bool b)
+    {
+        canParry = b;
+        parryComponent.enabled = b;
+    }
+
     public void HitHead()
     {
+        if (invulnerable) return;
         playerLives--;
         candyAvoided--;
         anim.SetTrigger("HeadHit");

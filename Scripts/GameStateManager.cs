@@ -52,7 +52,7 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         pointsToBeAdded = 0;
-        JSAM.AudioManager.instance.PlayMusic("In-Game");
+        JSAM.AudioManager.instance.PlayMusic("In-Game", true, true);
     }
 
     // Update is called once per frame
@@ -68,12 +68,37 @@ public class GameStateManager : MonoBehaviour
         Time.timeScale = 1;
         anim.enabled = false;
         Invoke("BeginGame", 0.5f);
-        JSAM.AudioManager.instance.PlayMusic("In-Game");
+        JSAM.AudioManager.instance.PlayMusic("In-Game", true, true);
     }
 
     public void UpdateBackgroundScroll(int requestedLevel)
     {
         bgAnim.SetFloat("ScrollSpeed", Mathf.Lerp(1, 2, (float)requestedLevel / 10f));
+    }
+
+    public void SetHeadTemporaryInvincibility()
+    {
+        HeadJumpManager.instance.EnableInvuln();
+    }
+
+    public void EnableParrying()
+    {
+        HeadJumpManager.instance.SetParryStatus(true);
+    }
+
+    public void DisableParrying()
+    {
+        HeadJumpManager.instance.SetParryStatus(false);
+    }
+
+    public void EnableJumps()
+    {
+        HeadJumpManager.instance.SetJumpAbility(true);
+    }
+
+    public void DisableJumps()
+    {
+        HeadJumpManager.instance.SetJumpAbility(false);
     }
 
     public void BeginGame()

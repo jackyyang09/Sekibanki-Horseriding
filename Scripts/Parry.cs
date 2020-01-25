@@ -22,13 +22,15 @@ public class Parry : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z)) // Parry
         {
-            anim.SetTrigger("Parry");
+            if (HeadJumpManager.instance.IsGrounded())
+            {
+                anim.SetTrigger("Parry");
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print("INCOMING");
         if (transform.root != collision.transform.root)
         {
             HeadJumpManager.instance.CandyEaten();

@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Lose UI References")]
     [SerializeField]
+    TextMeshProUGUI timeSurviveText;
+    [SerializeField]
     TextMeshProUGUI distanceTravelledText;
     [SerializeField]
     TextMeshProUGUI candiesAvoidedText;
@@ -138,6 +140,12 @@ public class UIManager : MonoBehaviour
         JSAM.AudioManager.instance.PlayMusic("In-Menu");
     }
 
+    public void SetTimeElapsed()
+    {
+        float time = HorseManager.instance.GetTimeAlive();
+        timeSurviveText.text = (((Mathf.Floor(time / 3600f)) % 60).ToString("00")) + ":" + (((Mathf.Floor(time / 60f)) % 60).ToString("00")) + ":" + (Mathf.Floor(time % 60f).ToString("00"));
+    }
+
     public void SetDistanceTravelled()
     {
         distanceTravelledText.text = 
@@ -150,7 +158,7 @@ public class UIManager : MonoBehaviour
     {
         candiesAvoidedText.text =
                     HeadJumpManager.instance.GetCandyAvoided() +
-                    "m (+" + GameStateManager.instance.GetCandyAvoidedPoints() +
+                    " (+" + GameStateManager.instance.GetCandyAvoidedPoints() +
                     "xp)";
     }
 
@@ -158,7 +166,7 @@ public class UIManager : MonoBehaviour
     {
         candiesEatenText.text =
             HeadJumpManager.instance.GetCandyEaten() +
-            "m (+" + GameStateManager.instance.GetCandyEatenPoints() +
+            " (+" + GameStateManager.instance.GetCandyEatenPoints() +
             "xp)";
     }
 
