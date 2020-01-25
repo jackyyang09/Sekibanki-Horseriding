@@ -9351,7 +9351,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   jumpTime: 0.3
   gravity: 0.3
-  maxLives: 20
+  maxLives: 1
   invulnTime: 1.5
   candyAvoided: 0
   candyEaten: 0
