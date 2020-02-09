@@ -102,6 +102,7 @@ public class HeadJumpManager : MonoBehaviour
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
+            JSAM.AudioManager.instance.PlaySoundOnce("Jump2");
             isJumping = true;
             jumpTimeCounter = jumpLength;
             rb.velocity = Vector2.up * jumpForce;
@@ -111,6 +112,7 @@ public class HeadJumpManager : MonoBehaviour
         {
             if (jumpTimeCounter > 0)
             {
+                
                 rb.velocity = Vector2.up * jumpForce;
                 jumpTimeCounter -= Time.deltaTime;
             }
@@ -178,6 +180,7 @@ public class HeadJumpManager : MonoBehaviour
     public void HitHead()
     {
         if (invulnerable) return;
+        JSAM.AudioManager.instance.PlaySoundOnce("Damage");
         playerLives--;
         candyAvoided--;
         anim.SetTrigger("HeadHit");
@@ -200,6 +203,7 @@ public class HeadJumpManager : MonoBehaviour
 
     public void CandyEaten()
     {
+        JSAM.AudioManager.instance.PlaySoundOnce("Eating Food");
         candyEaten++;
     }
 
