@@ -100,7 +100,9 @@ public class HeadJumpManager : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, ground);
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        // Checks if player can jump when key is pressed
+        // Also checks if player is alive before allowing them to jump
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space) && playerLives >= 1 && anim.GetCurrentAnimatorStateInfo(2).IsName("Balance"))
         {
             JSAM.AudioManager.instance.PlaySoundOnce("Jump2");
             isJumping = true;
