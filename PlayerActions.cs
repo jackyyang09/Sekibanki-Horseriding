@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Sekibanki-Horseriding/PlayerActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/PlayerActions.inputactions'
 
 using System;
 using System.Collections;

@@ -57,7 +57,7 @@ public class HorseManager : MonoBehaviour
     {
         float newSpeed = (float)level / 10f;
         speed = Mathf.Lerp(speedRange.x, speedRange.y, newSpeed);
-        anim.SetFloat("HorseSpeed", Mathf.Lerp(1, 2, newSpeed));
+        anim.SetFloat("HorseSpeed", Mathf.Lerp(0.8f, 2.2f, newSpeed));
     }
 
     public void ResetTime()
